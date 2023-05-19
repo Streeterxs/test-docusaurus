@@ -1,0 +1,103 @@
+asyncapi: 2.0.0
+info:
+  title: Entria Event Driven
+  version: 2.0.0
+  description: ' Entria Event Driven docs'
+components:
+  messages:
+    FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_MAGIC_CODE:
+      payload:
+        type: string
+        properties:
+          magicCode:
+            type: number
+            description: A magic code sent to phone number registered into pre registration
+    FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_EMAIL:
+      payload:
+        type: string
+        properties:
+          email:
+            type: string
+            description: Email containing the link for confirmation
+    OPENPIX.UPDATE_CHARGE_STATUS_EXPIRED:
+      payload:
+        type: string
+        properties:
+          success:
+            type: string
+            description: Message of charges successfully expired
+    OPENPIX:COMPANYBANKACCOUNT_REGISTER_WEBHOOK:
+      payload:
+        type: object
+        properties:
+          companyBankAccountId:
+            type: string
+            description: Company Bank Account to register webhook
+    OPENPIX.PAYMENT_SUBSCRIPTION.INSTALLMENT_GENERATE_CHARGE:
+      payload:
+        type: string
+        properties:
+          success:
+            type: string
+            description: Message of charge successfully generated
+    OPENPIX:PIX_TRANSACTION_SYNC:
+      payload:
+        type: object
+        properties:
+          companyBankAccountId:
+            type: string
+            pix:
+              type: object
+              properties:
+                endToEndId:
+                  type: string
+                valor:
+                  type: string
+                horario:
+                  type: string
+                pagador:
+                  type: object
+                  properties:
+                    nome:
+                      type: string
+                    cpf:
+                      type: string
+                    cnpj:
+                      type: string
+channels:
+  FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_MAGIC_CODE:
+    description: Send magic code for validate phone from pre registration
+    publish:
+      message:
+        $ref:
+          "#/components/messages/FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_MAG\
+          IC_CODE"
+  FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_EMAIL:
+    description: Send email for pre registration confirmation
+    publish:
+      message:
+        $ref:
+          "#/components/messages/FEEDBACK_FRONT.FEEDBACK_HOUSE.PRE_REGISTRATION_EMA\
+          IL"
+  OPENPIX.UPDATE_CHARGE_STATUS_EXPIRED:
+    description: Update charges for expired if it on past
+    publish:
+      message:
+        $ref: '#/components/messages/OPENPIX.UPDATE_CHARGE_STATUS_EXPIRED'
+  OPENPIX:COMPANYBANKACCOUNT_REGISTER_WEBHOOK:
+    description: Given a companyBankAccountId register a webhook using pix api
+    publish:
+      message:
+        $ref: '#/components/messages/OPENPIX:COMPANYBANKACCOUNT_REGISTER_WEBHOOK'
+  OPENPIX.PAYMENT_SUBSCRIPTION.INSTALLMENT_GENERATE_CHARGE:
+    description: Generate a charge for a given Payment Subscription Installment
+    publish:
+      message:
+        $ref:
+          "#/components/messages/OPENPIX.PAYMENT_SUBSCRIPTION.INSTALLMENT_GENERATE_\
+          CHARGE"
+  OPENPIX:PIX_TRANSACTION_SYNC:
+    description: Sync a raw pix to a pixTransaction
+    publish:
+      message:
+        $ref: '#/components/messages/OPENPIX:PIX_TRANSACTION_SYNC'
